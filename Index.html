@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expense Tracker</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 20px auto;
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .balance-box {
+      text-align: center;
+      padding: 20px;
+      background: #f1f3f5;
+      border-radius: 12px;
+      margin-bottom: 15px;
+    }
+
+    .balance-box p {
+      margin: 0;
+    }
+
+    .balance-box h2 {
+      font-size: 32px;
+      margin: 10px 0 0;
+    }
+
+    .summary {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    .summary > div {
+      flex: 1;
+      text-align: center;
+      padding: 15px;
+      border-radius: 10px;
+      background: #f8f9fa;
+    }
+
+    .summary p {
+      margin: 0 0 5px;
+    }
+
+    .summary h3 {
+      margin: 0;
+    }
+
+    input,
+    select,
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 12px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      font-size: 16px;
+    }
+
+    button {
+      border: none;
+      background: #222;
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+    #transactionList {
+      list-style: none;
+      padding: 0;
+    }
+
+    #transactionList li {
+      padding: 12px;
+      margin-bottom: 10px;
+      background: #f8f9fa;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <h1>💰 Expense Tracker</h1>
+
+    <div class="balance-box">
+      <p>Current Balance</p>
+      <h2 id="balance">₹0</h2>
+    </div>
+
+    <div class="summary">
+      <div>
+        <p>Income</p>
+        <h3 id="income">₹0</h3>
+      </div>
+
+      <div>
+        <p>Expenses</p>
+        <h3 id="expenses">₹0</h3>
+      </div>
+    </div>
+
+    <input id="description" placeholder="Description">
+
+    <input id="amount" type="number" placeholder="Amount">
+
+    <select id="type">
+      <option value="income">Income</option>
+      <option value="expense">Expense</option>
+    </select>
+
+    <select id="category">
+      <option value="Food">Food</option>
+      <option value="Shopping">Shopping</option>
+      <option value="Bills">Bills</option>
+      <option value="Travel">Travel</option>
+      <option value="Other">Other</option>
+    </select>
+
+    <button id="addTransactionBtn">Add Transaction</button>
+
+    <h2>Transactions</h2>
+
+    <ul id="transactionList"></ul>
+  </div>
+
+  <script>
+    var income = 0;
+    var expenses = 0;
+
+    document.getElementById("addTransactionBtn").onclick = function() {
+
+      var description = document.getElementById("description").value;
+      var amount = Number(document.getElementById("amount").value);
+      var type = document.getElementById("type").value;
+      var category = document.getElementById("category").value;
+
+      if (description === "" || amount <= 0) {
+        alert("Please enter a description and amount");
+        return;
+      }
+
+      var item = document.createElement("li");
+
+      item.textContent = description + " - " +
+        (type === "income" ? "+" : "-") +
+        "₹" + amount + " (" + category + ")";
+
+      document.getElementById("transactionList").appendChild(item);
+
+      if (type === "income") {
+        income = income + amount;
+      } else {
+        expenses = expenses + amount;
+      }
+
+      document.getElementById("income").textContent = "₹" + income;
+      document.getElementById("expenses").textContent = "₹" + expenses;
+      document.getElementById("balance").textContent = "₹" + (income - expenses);
+
+      document.getElementById("description").value = "";
+      document.getElementById("amount").value = "";
+    };
+  </script>
+
+</body>
+</html>
